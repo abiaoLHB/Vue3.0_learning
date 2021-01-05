@@ -11,14 +11,33 @@
 
 <body>
     <div id="counter">
-        Counter:{{counter}}
+        <p> Counter:{{counter}}</p>
+        <span :title="tips">span</span>
+        <p>{{message}}</p>
+        <button @click="reverseMessage">翻转message</button>
+        <input type="text" v-model="inputMessage">
+        <div>{{inputMessage}}</div>
+        <ul>
+            <li v-for="todo in todos">
+                {{todo.text}}
+            </li>
+        </ul>
+        <todo-item></todo-item>
     </div>
 
     <script>
         const Counter = {
             data() {
                 return {
-                    counter: 0
+                    counter: 0,
+                    tips: '鼠标悬停几秒钟。。。',
+                    message: "用户输入",
+                    inputMessage: '',
+                    todos: [
+                        { text: "Learn 1" },
+                        { text: "Learn 2" },
+                        { text: "Learn 3" },
+                    ]
                 }
             },
             mounted() {
@@ -26,9 +45,24 @@
                     this.counter++
                 }, 1000)
             },
+            methods: {
+                reverseMessage() {
+                    this.message = this.message.split('').reverse().join('')
+                }
+
+            },
         }
 
-        Vue.createApp(Counter).mount("#counter")
+
+        const app = Vue.createApp(Counter)
+
+        console.log(app)
+        console.log(Counter)
+        app.component('todo-item', {
+            template: `<li>我是一個組件</li>`
+        })
+        // 设置完组件再挂载
+        app.mount("#counter")
     </script>
 </body>
 

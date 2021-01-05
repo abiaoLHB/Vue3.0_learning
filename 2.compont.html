@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="appa">
+        <ol>
+            <!-- <todo-item v-for="item in groceryList" v-bind:todo='item' :key="index"></todo-item> -->
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        </ol>
+    </div>
+    <script>
+        const TodoList = {
+            data() {
+                return {
+                    groceryList: [
+                        { id: 0, text: 'Vegetables' },
+                        { id: 1, text: 'Cheese' },
+                        { id: 2, text: 'Whatever else humans are supposed to eat' }
+                    ],
+                    count:8
+                }
+            }
+        }
+        const app = Vue.createApp(TodoList)
+        app.component('todo-item', {
+            props: ['todo'],
+            template: `<li>{{ todo.text }}</li>`
+        })
+        const vm = app.mount("#appa")//返回根组件实例
+
+        console.log("================")
+        console.log(app) // vue实例
+        console.log(vm) //根组件实例
+        console.log(vm.groceryList) //根组件实例
+        console.log(vm.count) //根组件实例
+        console.log("================")
+
+    </script>
+</body>
+
+</html>
