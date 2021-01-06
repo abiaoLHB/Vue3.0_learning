@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .bgc {
+            background-color: pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div @click="increment">plus</div>
+        <div>计算属性:{{allBooks}}</div>
+        <ol>
+            <li v-for="item in allBooks">{{item}}</li>
+        </ol>
+
+        <div :class="{bgc:isActive}">class</div>
+
+        <div @click="firstClick($event),secondClick($event)">多事件处理</div>
+    </div>
+    <script>
+        const sigle = {
+            data() {
+                return {
+                    count: 4,
+                    isActive: false,
+                    books: [
+                        'Vue 2 - Advanced Guide',
+                        'Vue 3 - Basic Guide',
+                        'Vue 4 - The Mystery'
+                    ]
+                }
+            },
+            computed: {
+                allBooks() {
+                    return this.books.push("Vue " + this.count + ' - 新书')
+                }
+            },
+            watch: {
+                count(newValue, oldValue) {
+                    console.log("变化了")
+                    console.log(newValue)
+                    console.log(oldValue)
+                    console.log("变化了")
+                }
+            },
+            methods: {
+                increment() {
+                    this.count++
+                    this.isActive = !this.isActive
+                    console.log(this.count)
+                },
+                firstClick(event) {
+                    console.log("第一次点击")
+                    console.log(event)
+                    console.log("第一次点击")
+                },
+                secondClick(event) {
+                    console.log("第二次点击")
+                    console.log(event)
+                    console.log("第二次点击")
+                },
+            },
+
+        }
+        const app = Vue.createApp(sigle)
+        const vm = app.mount("#app")
+        console.log(vm.$data.count)
+        console.log(vm.count)
+
+        // 修改 vm.count的值也会更新$data.count
+        vm.count = 5
+        console.log(vm.$data.count)
+
+        vm.$data.count = 6
+        console.log(vm.count)
+
+        vm.increment()
+        console.log(vm.count)
+
+    </script>
+</body>
+
+</html>
