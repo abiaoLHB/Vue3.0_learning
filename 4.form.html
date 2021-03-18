@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- 单行文本 -->
+        <div>{{name}}</div>
+        <!-- modal -->
+        <input type="text" v-model="message">
+        <input type="text" v-model.trim="message">
+        <input type="text" v-model.lazy="message">
+        <div>{{message}}</div>
+        <!-- 多行文本 应该使用v-mode，不要使用差值-->
+        <textarea v-model="moreMessage" name="" id="" cols="30" rows="5"></textarea>
+        <div>{{moreMessage}}</div>
+
+        <!-- 单个复选框，绑定到布尔值 -->
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{checked}}</label>
+
+        <!-- 多个复选框 -->
+        <div>
+            <div>多选框</div>
+            <input type="checkbox" id="jack" value="jack" v-model="checkedNames">
+            <label for="jack">jack</label>
+            <input type="checkbox" id="join" value="join" v-model="checkedNames">
+            <label for="join">join</label>
+            <input type="checkbox" id="mike" value="mike" v-model="checkedNames">
+            <label for="mike">mike</label>
+            <div>结果:{{checkedNames}}</div>
+        </div>
+
+        <!-- 单选框 -->
+        <div>
+            <div>单选框</div>
+            <input type="radio" id="one" value="One" v-model="picked">
+            <label for="one">One</label>
+
+            <input type="radio" id="two" value="Two" v-model="picked">
+            <label for="two">Two</label>
+
+            <div>Picked:{{picked}}</div>
+        </div>
+
+        <!-- 下拉单选 -->
+        <div>
+            <div>下拉单选</div>
+            <select name="" v-model="selected" id="">
+                <option value="" disabled>please select one</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+            </select>
+            <span>Selected:{{selected}}</span>
+        </div>
+        <!-- 下拉多选 -->
+        <div>
+            <div>下拉多选</div>
+            <select name="" id="" v-model="seleArray" multiple>
+                <option value="A2">A2</option>
+                <option value="B2">B2</option>
+                <option value="C2">C2</option>
+            </select>
+            <span>seleArray:{{seleArray}}</span>
+        </div>
+
+        <!-- 通过for循环 -->
+        <div>
+            <div>for循环</div>
+            <select name="" v-model="selectA" id="">
+                <option v-for="option in options" :value="option.value">{{option.text}}</option>
+            </select>
+            <span>SelectA:{{selectA}}</span>
+        </div>
+
+
+        <!--组件-事件 -->
+        <div id="blog-posts-events-demo" class="demo">
+            <div :style="{ fontSize: postFontSize + 'em' }">
+                <!-- 监听组件事件 -->
+                <blog-post v-for="post in posts" :key="post.id" :title="post.title" @enlarge-text="changeFont"></blog-post>
+            </div>
+        </div>
+
+    </div>
+    <script>
+
+        let app = Vue.createApp({
+            data() {
+                return {
+                    message: 'message',
+                    name: 'name',
+                    moreMessage: "moreMessage",
+                    checked: false,
+                    checkedNames: [],
+                    picked: '',
+                    selected: '',
+                    seleArray: [],
+                    selectA: 'A',
+                    options: [
+                        { text: 'One', value: 'A' },
+                        { text: 'Two', value: 'B' },
+                        { text: 'Three', value: 'C' }
+                    ],
+                    posts: [
+                        { id: 1, title: 'My journey with Vue' },
+                        { id: 2, title: 'Blogging with Vue' },
+                        { id: 3, title: 'Why Vue is so fun' }
+                    ],
+                    postFontSize: 1
+                }
+            },
+            methods: {
+                changeFont(params){
+                    console.log(params)
+                    this.postFontSize += 0.1
+                }
+            },
+        });
+
+        app.component('blog-post', {
+            props: ['title'],
+            template: `
+                <div class="blog-post">
+                <h4>{{ title }}</h4>
+                <button @click="$emit('enlargeText','from')">
+                    Enlarge text
+                </button>
+                </div>
+            `
+        })
+        app.mount("#app")
+
+
+    </script>
+</body>
+
+</html>
